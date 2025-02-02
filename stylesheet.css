@@ -1300,6 +1300,18 @@ audio {
         background-color: #466baf;
     }
 
+#go_next {
+    background: #ff4081;
+    border-color: #ff4081;
+    margin-top: 20px;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
 
 
     /*controlling tablet width*/
