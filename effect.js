@@ -25,13 +25,17 @@ $(document).ready(function(){
     });
 
     $('#turn_on').click(function(){
+        // Add glow classes to bulb elements
         $('#bulb_yellow').addClass('bulb-glow-yellow');
         $('#bulb_red').addClass('bulb-glow-red');
         $('#bulb_blue').addClass('bulb-glow-blue');
         $('#bulb_green').addClass('bulb-glow-green');
         $('#bulb_pink').addClass('bulb-glow-pink');
         $('#bulb_orange').addClass('bulb-glow-orange');
+        
+        // Add peach background class
         $('body').addClass('peach');
+        
         $(this).fadeOut('slow').delay(5000).promise().done(function(){
             $('#play').fadeIn('slow');
         });
