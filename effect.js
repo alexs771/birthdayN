@@ -9,15 +9,19 @@ $(document).ready(function(){
     var vw;
     $(window).resize(function(){
         vw = $(window).width() / 2;
-        $('#b1,#b2,#b3,#b4,#b5,#b6,#b7').stop();
-        $('#b11').animate({top: 240, left: vw - 350}, 500);
-        $('#b22').animate({top: 240, left: vw - 250}, 500);
-        $('#b33').animate({top: 240, left: vw - 150}, 500);
-        $('#b44').animate({top: 240, left: vw - 50}, 500);
-        $('#b55').animate({top: 240, left: vw + 50}, 500);
-        $('#b66').animate({top: 240, left: vw + 150}, 500);
-        $('#b77').animate({top: 240, left: vw + 250}, 500);
+        alignBalloons();
     });
+
+    function alignBalloons() {
+        vw = $(window).width() / 2;
+        $('#b1').css({top: 240, left: vw - 350});
+        $('#b2').css({top: 240, left: vw - 250});
+        $('#b3').css({top: 240, left: vw - 150});
+        $('#b4').css({top: 240, left: vw - 50});
+        $('#b5').css({top: 240, left: vw + 50});
+        $('#b6').css({top: 240, left: vw + 150});
+        $('#b7').css({top: 240, left: vw + 250});
+    }
 
     $('#turn_on').click(function(){
         $('#bulb_yellow').addClass('bulb-glow-yellow');
@@ -35,13 +39,6 @@ $(document).ready(function(){
     $('#play').click(function(){
         var audio = $('.song')[0];
         audio.play();
-        $('#bulb_yellow').addClass('bulb-glow-yellow-after');
-        $('#bulb_red').addClass('bulb-glow-red-after');
-        $('#bulb_blue').addClass('bulb-glow-blue-after');
-        $('#bulb_green').addClass('bulb-glow-green-after');
-        $('#bulb_pink').addClass('bulb-glow-pink-after');
-        $('#bulb_orange').addClass('bulb-glow-orange-after');
-        $('body').css('background-color', '#FFF');
         $('body').addClass('peach-after');
         $(this).fadeOut('slow').delay(6000).promise().done(function(){
             $('#bannar_coming').fadeIn('slow');
@@ -64,16 +61,18 @@ $(document).ready(function(){
     }
 
     $('#balloons_flying').click(function(){
+        alignBalloons(); // Ensure balloons are in a row first
         $('.balloon-border').animate({top: -500}, 8000);
-        $('#b1,#b4,#b5,#b7').addClass('balloons-rotate-behaviour-one');
-        $('#b2,#b3,#b6').addClass('balloons-rotate-behaviour-two');
-        loopBalloon('#b1');
-        loopBalloon('#b2');
-        loopBalloon('#b3');
-        loopBalloon('#b4');
-        loopBalloon('#b5');
-        loopBalloon('#b6');
-        loopBalloon('#b7');
+        $('#b1,#b2,#b3,#b4,#b5,#b6,#b7').fadeIn();
+        setTimeout(function() {
+            loopBalloon('#b1');
+            loopBalloon('#b2');
+            loopBalloon('#b3');
+            loopBalloon('#b4');
+            loopBalloon('#b5');
+            loopBalloon('#b6');
+            loopBalloon('#b7');
+        }, 2000);
         $(this).fadeOut('slow').delay(5000).promise().done(function(){
             $('#cake_fadein').fadeIn('slow');
         });
@@ -94,13 +93,14 @@ $(document).ready(function(){
     });
 
     $('#wish_message').click(function(){
+        alignBalloons(); // Align balloons before floating
         $('.balloons h2').fadeIn(3000);
         $(this).fadeOut('slow').delay(3000).promise().done(function(){
             $('#story').fadeIn('slow');
         });
     });
 
-    // Create Floating Hearts
+    // Floating Hearts Effect
     function createHearts() {
         for (let i = 0; i < 10; i++) {
             let heart = $("<div class='floating-heart'>❤️</div>");
@@ -131,9 +131,9 @@ $(document).ready(function(){
                 $("p:nth-child(" + i + ")").fadeIn('slow').delay(1000);
                 if (i === $(".message p").length) {
                     $("p:nth-child(" + (i - 1) + ")").fadeOut('slow').promise().done(function () {
-                        // Show cake AFTER all messages are done
                         $('.cake').fadeIn('fast').delay(1000).promise().done(function(){
-                            $('#go_next').fadeIn('slow'); // Show "Next Surprise" button only at the end
+                            $('#go_next').fadeIn('slow');
+                            launchFireworks();
                         });
                     });
                 } else {
@@ -144,9 +144,9 @@ $(document).ready(function(){
         msgLoop(0);
     });
 
-    // Launch Fireworks at the end
+    // Fireworks Effect
     function launchFireworks() {
-        var duration = 3 * 1000; // 3 seconds
+        var duration = 3 * 1000;
         var end = Date.now() + duration;
         
         (function frame() {
@@ -162,13 +162,7 @@ $(document).ready(function(){
         })();
     }
 
-    // Show final surprise and launch fireworks
-    $('#go_next').fadeIn('slow', function() {
-        launchFireworks(); // Fireworks when button appears
-        $("p:last-child").addClass("sparkle-text"); // Make last message sparkle
-    });
-
-    // Redirect when "go_next" is clicked
+    $('#go_next').hide();
     $('#go_next').click(function() {
         window.location.href = 'https://www.example.com'; // Replace with your target URL
     });
