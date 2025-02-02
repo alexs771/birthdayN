@@ -55,53 +55,25 @@ $(document).ready(function(){
         });
     });
 
-    function loopOne() {
+    function loopBalloon(id) {
         var randleft = 1000 * Math.random();
         var randtop = 500 * Math.random();
-        $('#b1').animate({left: randleft, bottom: randtop}, 10000, loopOne);
-    }
-    function loopTwo() {
-        var randleft = 1000 * Math.random();
-        var randtop = 500 * Math.random();
-        $('#b2').animate({left: randleft, bottom: randtop}, 10000, loopTwo);
-    }
-    function loopThree() {
-        var randleft = 1000 * Math.random();
-        var randtop = 500 * Math.random();
-        $('#b3').animate({left: randleft, bottom: randtop}, 10000, loopThree);
-    }
-    function loopFour() {
-        var randleft = 1000 * Math.random();
-        var randtop = 500 * Math.random();
-        $('#b4').animate({left: randleft, bottom: randtop}, 10000, loopFour);
-    }
-    function loopFive() {
-        var randleft = 1000 * Math.random();
-        var randtop = 500 * Math.random();
-        $('#b5').animate({left: randleft, bottom: randtop}, 10000, loopFive);
-    }
-    function loopSix() {
-        var randleft = 1000 * Math.random();
-        var randtop = 500 * Math.random();
-        $('#b6').animate({left: randleft, bottom: randtop}, 10000, loopSix);
-    }
-    function loopSeven() {
-        var randleft = 1000 * Math.random();
-        var randtop = 500 * Math.random();
-        $('#b7').animate({left: randleft, bottom: randtop}, 10000, loopSeven);
+        $(id).animate({left: randleft, bottom: randtop}, 10000, function() {
+            loopBalloon(id);
+        });
     }
 
     $('#balloons_flying').click(function(){
         $('.balloon-border').animate({top: -500}, 8000);
         $('#b1,#b4,#b5,#b7').addClass('balloons-rotate-behaviour-one');
         $('#b2,#b3,#b6').addClass('balloons-rotate-behaviour-two');
-        loopOne();
-        loopTwo();
-        loopThree();
-        loopFour();
-        loopFive();
-        loopSix();
-        loopSeven();
+        loopBalloon('#b1');
+        loopBalloon('#b2');
+        loopBalloon('#b3');
+        loopBalloon('#b4');
+        loopBalloon('#b5');
+        loopBalloon('#b6');
+        loopBalloon('#b7');
         $(this).fadeOut('slow').delay(5000).promise().done(function(){
             $('#cake_fadein').fadeIn('slow');
         });
@@ -130,7 +102,10 @@ $(document).ready(function(){
 
     $('#story').click(function(){
         $(this).fadeOut('slow');
-        $('.cake').fadeOut('fast').promise().done(function(){
+
+        // Hide balloons & cake before starting message animation
+        $('.balloons').fadeOut('slow');
+        $('.cake').fadeOut('slow').promise().done(function(){
             $('.message').fadeIn('slow');
         });
 
@@ -138,10 +113,12 @@ $(document).ready(function(){
             $("p:nth-child(" + i + ")").fadeOut('slow').delay(800).promise().done(function(){
                 i = i + 1;
                 $("p:nth-child(" + i + ")").fadeIn('slow').delay(1000);
-                if(i === $(".message p").length) {
+                if (i === $(".message p").length) {
                     $("p:nth-child(" + (i - 1) + ")").fadeOut('slow').promise().done(function () {
-                        $('.cake').fadeIn('fast');
-                        $('#go_next').fadeIn('slow'); // Show "Next Surprise" button only at the end
+                        // Show cake AFTER all messages are done
+                        $('.cake').fadeIn('fast').delay(1000).promise().done(function(){
+                            $('#go_next').fadeIn('slow'); // Show "Next Surprise" button only at the end
+                        });
                     });
                 } else {
                     msgLoop(i);
