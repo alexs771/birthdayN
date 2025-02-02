@@ -100,8 +100,24 @@ $(document).ready(function(){
         });
     });
 
+    // Create Floating Hearts
+    function createHearts() {
+        for (let i = 0; i < 10; i++) {
+            let heart = $("<div class='floating-heart'>❤️</div>");
+            let leftPosition = Math.random() * $(window).width();
+            heart.css({ left: leftPosition, bottom: 0, position: "fixed" });
+            $("body").append(heart);
+            heart.animate({ bottom: "100vh", opacity: 0 }, 5000, function () {
+                $(this).remove();
+            });
+        }
+    }
+
     $('#story').click(function(){
         $(this).fadeOut('slow');
+
+        // Start Floating Hearts Animation
+        setInterval(createHearts, 1000);
 
         // Hide balloons & cake before starting message animation
         $('.balloons').fadeOut('slow');
@@ -126,6 +142,30 @@ $(document).ready(function(){
             });
         }
         msgLoop(0);
+    });
+
+    // Launch Fireworks at the end
+    function launchFireworks() {
+        var duration = 3 * 1000; // 3 seconds
+        var end = Date.now() + duration;
+        
+        (function frame() {
+            confetti({
+                particleCount: 5,
+                spread: 160,
+                origin: { x: Math.random(), y: Math.random() }
+            });
+
+            if (Date.now() < end) {
+                requestAnimationFrame(frame);
+            }
+        })();
+    }
+
+    // Show final surprise and launch fireworks
+    $('#go_next').fadeIn('slow', function() {
+        launchFireworks(); // Fireworks when button appears
+        $("p:last-child").addClass("sparkle-text"); // Make last message sparkle
     });
 
     // Redirect when "go_next" is clicked
