@@ -7,11 +7,8 @@ $(window).load(function(){
 
 $(document).ready(function(){
     var vw;
-    $(window).resize(function(){
-        vw = $(window).width() / 2;
-        alignBalloons();
-    });
-
+    
+    // Align Balloons to Proper Positions
     function alignBalloons() {
         vw = $(window).width() / 2;
         $('#b1').css({top: 240, left: vw - 350});
@@ -22,6 +19,10 @@ $(document).ready(function(){
         $('#b6').css({top: 240, left: vw + 150});
         $('#b7').css({top: 240, left: vw + 250});
     }
+
+    $(window).resize(function(){
+        alignBalloons();
+    });
 
     $('#turn_on').click(function(){
         $('#bulb_yellow').addClass('bulb-glow-yellow');
@@ -40,6 +41,12 @@ $(document).ready(function(){
         var audio = $('.song')[0];
         audio.play();
         $('body').addClass('peach-after');
+        $('#bulb_yellow').addClass('bulb-glow-yellow-after');
+        $('#bulb_red').addClass('bulb-glow-red-after');
+        $('#bulb_blue').addClass('bulb-glow-blue-after');
+        $('#bulb_green').addClass('bulb-glow-green-after');
+        $('#bulb_pink').addClass('bulb-glow-pink-after');
+        $('#bulb_orange').addClass('bulb-glow-orange-after');
         $(this).fadeOut('slow').delay(6000).promise().done(function(){
             $('#bannar_coming').fadeIn('slow');
         });
@@ -61,7 +68,7 @@ $(document).ready(function(){
     }
 
     $('#balloons_flying').click(function(){
-        alignBalloons(); // Ensure balloons are in a row first
+        alignBalloons();
         $('.balloon-border').animate({top: -500}, 8000);
         $('#b1,#b2,#b3,#b4,#b5,#b6,#b7').fadeIn();
         setTimeout(function() {
@@ -93,7 +100,7 @@ $(document).ready(function(){
     });
 
     $('#wish_message').click(function(){
-        alignBalloons(); // Align balloons before floating
+        alignBalloons();
         $('.balloons h2').fadeIn(3000);
         $(this).fadeOut('slow').delay(3000).promise().done(function(){
             $('#story').fadeIn('slow');
