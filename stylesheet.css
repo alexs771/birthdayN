@@ -1300,6 +1300,38 @@ audio {
         background-color: #466baf;
     }
 
+/* Floating Hearts */
+@keyframes floating-hearts {
+    0% { transform: translateY(0) scale(1); opacity: 1; }
+    50% { transform: translateY(-50px) scale(1.2); opacity: 0.8; }
+    100% { transform: translateY(-100px) scale(1.5); opacity: 0; }
+}
+
+.floating-heart {
+    position: absolute;
+    color: red;
+    font-size: 24px;
+    animation: floating-hearts 3s infinite;
+    z-index: 9999;
+}
+
+/* Sparkling Last Message */
+@keyframes sparkle {
+    0% { color: gold; text-shadow: 0 0 5px gold; }
+    50% { color: white; text-shadow: 0 0 10px white; }
+    100% { color: gold; text-shadow: 0 0 5px gold; }
+}
+
+.sparkle-text {
+    animation: sparkle 1s infinite alternate;
+}
+
+/* Ensure text appears above everything */
+.message {
+    position: relative;
+    z-index: 1000;
+}
+
 #go_next {
     background: #ff4081;
     border-color: #ff4081;
