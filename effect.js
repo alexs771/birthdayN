@@ -165,37 +165,36 @@ $('document').ready(function(){
 	});
 	
 	$('#story').click(function(){
-		$(this).fadeOut('slow');
-		$('.cake').fadeOut('fast').promise().done(function(){
-			$('.message').fadeIn('slow');
-		});
-		
-		var i;
+        $(this).fadeOut('slow');
+        $('.cake').fadeOut('fast').promise().done(function(){
+            $('.message').fadeIn('slow');
+        });
+        
+        var i;
+        function msgLoop(i) {
+            $("p:nth-child("+i+")").fadeOut('slow').delay(800).promise().done(function(){
+                i=i+1;
+                $("p:nth-child("+i+")").fadeIn('slow').delay(1000);
+                if(i==50){
+                    $("p:nth-child(49)").fadeOut('slow').promise().done(function () {
+                        $('.cake').fadeIn('fast').promise().done(function(){
+                            // Show Next Page button after all animations
+                            $('#nextPage').fadeIn('slow');
+                        });
+                    });
+                } else {
+                    msgLoop(i);
+                }
+            });
+        }
+        msgLoop(0);
+    });
 
-		function msgLoop (i) {
-			$("p:nth-child("+i+")").fadeOut('slow').delay(800).promise().done(function(){
-			i=i+1;
-			$("p:nth-child("+i+")").fadeIn('slow').delay(1000);
-			if(i==50){
-				$("p:nth-child(49)").fadeOut('slow').promise().done(function () {
-					$('.cake').fadeIn('fast');
-				});
-				
-			}
-			else{
-				msgLoop(i);
-			}			
-
-		});
-			// body...
-		}
-		
-		msgLoop(0);
-		
-	});
+    // Add click handler for Next Page button
+    $('#nextPage').click(function(){
+        window.location.href = 'next_page.html'; // Replace with your desired URL
+    });
 });
-
-
 
 
 //alert('hello');
