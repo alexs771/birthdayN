@@ -192,7 +192,7 @@ $('document').ready(function(){
 
     // Add click handler for Next Page button
     $('#nextPage').click(function(){
-        window.location.href = 'next_page.html'; // Replace with your desired URL
+        window.location.href = 'https://surprise-for-you-n.pages.dev/'; // Replace with your desired URL
     });
 });
 
